@@ -1,6 +1,7 @@
 package ca.uvic.k4ncelled;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
 import android.view.View;
@@ -9,15 +10,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.time.LocalDate;
 
 import ca.uvic.k4ncelled.Backend.Food;
 import ca.uvic.k4ncelled.Backend.Fridge;
-import ca.uvic.k4ncelled.R;
 
 public class MainActivity extends AppCompatActivity {
-    private Spinner spinner;
-    private TextView textView;
+    private Spinner sp_selectFood;
+    private TextView tv_selectedInfo;
+    private FloatingActionButton bt_addFood;
+    private ConstraintLayout lo_addFood;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,24 +34,43 @@ public class MainActivity extends AppCompatActivity {
         myFridge.addFood("orange", LocalDate.now(), LocalDate.of(2022, 1, 1));
         myFridge.addFood("banana", LocalDate.now(), LocalDate.of(2020, 1, 1));
 
-        spinner = findViewById(R.id.spinner);
-        textView = findViewById(R.id.textView);
+        sp_selectFood = findViewById(R.id.sp_selectFood);
+        tv_selectedInfo = findViewById(R.id.tv_selectedInfo);
+        bt_addFood = findViewById(R.id.bt_addFood);
+        lo_addFood = findViewById(R.id.lo_addFood);
 
+        create_sp_selectFood(myFridge);
+        create_bt_addFood();
+    }
+
+    private void create_sp_selectFood(Fridge myFridge){
         ArrayAdapter<Food> arrayAdapter = new ArrayAdapter<>(
                 getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, myFridge.getStorage());
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        spinner.setAdapter(arrayAdapter);
+        sp_selectFood.setAdapter(arrayAdapter);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sp_selectFood.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                textView.setText(((Food) spinner.getSelectedItem()).toString());
+                Food selected = (Food) sp_selectFood.getSelectedItem();
+                tv_selectedInfo.setText(selected.toString() + "\nPurchase date: "
+                        + selected.getPurchaseDate() + "\nExpiry date: "
+                        + selected.getExpiryDate());
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+    }
+
+    private void create_bt_addFood(){
+        bt_addFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lo_addFood.setVisibility(View.VISIBLE);
             }
         });
     }
