@@ -4,9 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -20,8 +25,7 @@ import ca.uvic.k4ncelled.Backend.Fridge;
 public class MainActivity extends AppCompatActivity {
     private Spinner sp_selectFood;
     private TextView tv_selectedInfo;
-    private FloatingActionButton bt_addFood;
-    private ConstraintLayout lo_addFood;
+    private Button bt_addFood;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         sp_selectFood = findViewById(R.id.sp_selectFood);
         tv_selectedInfo = findViewById(R.id.tv_selectedInfo);
         bt_addFood = findViewById(R.id.bt_addFood);
-        lo_addFood = findViewById(R.id.lo_addFood);
 
         create_sp_selectFood(myFridge);
         create_bt_addFood();
@@ -70,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         bt_addFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                lo_addFood.setVisibility(View.VISIBLE);
+
             }
         });
     }
