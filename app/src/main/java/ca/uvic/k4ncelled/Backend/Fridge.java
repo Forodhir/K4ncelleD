@@ -20,9 +20,11 @@ public class Fridge {
         storage.sort(new ExpiryComparator());
     }
 
-    public void removeFood(Food toRemove){
-        storage.remove(toRemove);
+    public void addFood(String name, String purchaseDate, String expiryDate){
+        addFood(name, LocalDate.parse(purchaseDate), LocalDate.parse(expiryDate));
     }
+
+    public void removeFood(Food toRemove){ storage.remove(toRemove); }
 }
 
 class ExpiryComparator implements Comparator{
