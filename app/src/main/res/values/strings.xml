@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">K4ncelleD</string>
     <string name="tv_addFoodTitle">Add Food</string>
+    <string name="tv_foodName">Food Name</string>
+    <string name="et_foodName">Name</string>
+    <string name="tv_PurchaseDate">Purchase Date</string>
+    <string name="yyyy_mm_dd">yyyy-mm-dd</string>
+    <string name="tv_expiryDate">Expiry Date</string>
+    <string name="fridge_empty">Fridge empty</string>
 </resources>
