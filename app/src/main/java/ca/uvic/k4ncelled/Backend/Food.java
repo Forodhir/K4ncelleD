@@ -1,8 +1,9 @@
 package ca.uvic.k4ncelled.Backend;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Food {
+public class Food implements Serializable {
     private String name;
     private LocalDate purchaseDate;
     private LocalDate expiryDate;

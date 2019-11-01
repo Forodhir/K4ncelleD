@@ -1,7 +1,5 @@
 package ca.uvic.k4ncelled;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,13 +9,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.time.LocalDate;
+import androidx.appcompat.app.AppCompatActivity;
 
 import ca.uvic.k4ncelled.Backend.Food;
 import ca.uvic.k4ncelled.Backend.Fridge;
+import ca.uvic.k4ncelled.Data.Data;
 
 public class MainActivity extends AppCompatActivity {
-    private Fridge myFridge;
+    private Fridge fridge;
+    private Data data;
 
     private Spinner sp_selectFood;
     private TextView tv_selectedInfo;
@@ -32,11 +32,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        data = new Data(getApplicationContext());
 
-        myFridge = new Fridge();
-        myFridge.addFood("apple", LocalDate.now(), LocalDate.of(2021, 1, 1));
-        myFridge.addFood("orange", LocalDate.now(), LocalDate.of(2022, 1, 1));
-        myFridge.addFood("banana", LocalDate.now(), LocalDate.of(2020, 1, 1));
+        fridge = data.load();
 
         sp_selectFood = findViewById(R.id.sp_selectFood);
         tv_selectedInfo = findViewById(R.id.tv_selectedInfo);
@@ -53,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void create_sp_selectFood(){
         ArrayAdapter<Food> arrayAdapter = new ArrayAdapter<>(
-                getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, myFridge.getStorage());
+                getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, fridge.getStorage());
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         sp_selectFood.setAdapter(arrayAdapter);
@@ -80,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         bt_addFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myFridge.addFood(et_foodName.getText().toString(), et_purchaseDate.getText().toString(), et_expiryDate.getText().toString());
+                fridge.addFood(et_foodName.getText().toString(), et_purchaseDate.getText().toString(), et_expiryDate.getText().toString());
                 et_foodName.setText("");
                 et_purchaseDate.setText("");
                 et_expiryDate.setText("");
@@ -93,9 +91,15 @@ public class MainActivity extends AppCompatActivity {
         bt_removeFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myFridge.removeFood((Food) sp_selectFood.getSelectedItem());
+                fridge.removeFood((Food) sp_selectFood.getSelectedItem());
                 create_sp_selectFood();
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        data.save(fridge);
     }
 }

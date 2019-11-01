@@ -1,14 +1,15 @@
 package ca.uvic.k4ncelled.Backend;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class Fridge {
+public class Fridge implements Serializable {
     private ArrayList<Food> storage;
 
     public Fridge(){
-        storage = new ArrayList<Food>();
+        storage = new ArrayList<>();
     }
 
     public ArrayList<Food> getStorage(){
