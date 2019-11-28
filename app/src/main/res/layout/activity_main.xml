@@ -7,149 +7,17 @@
     android:background="@drawable/background"
     tools:context="ca.uvic.k4ncelled.MainActivity">
 
-    <Spinner
-        android:id="@+id/sp_selectFood"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
         android:background="#FFFFFF"
-        android:dropDownWidth="match_parent"
-        app:layout_constraintBottom_toTopOf="@+id/tv_selectedInfo"
+        app:itemIconTint="@color/colorPrimary"
+        app:labelVisibilityMode="unlabeled"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/tv_selectedInfo"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:background="#4D000000"
-        android:minHeight="50dp"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/bt_removeFood"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sp_selectFood" />
-
-    <Button
-        android:id="@+id/bt_removeFood"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:background="@android:drawable/ic_menu_delete"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sp_selectFood" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/lo_addFood"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:background="#4D000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_selectedInfo">
-
-        <TextView
-            android:id="@+id/tv_AddFoodTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/tv_addFoodTitle"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_foodName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/tv_foodName"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_AddFoodTitle" />
-
-        <EditText
-            android:id="@+id/et_foodName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/et_foodName"
-            android:inputType="textPersonName"
-            android:textColor="#FFFFFF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_foodName"
-            android:importantForAutofill="no" />
-
-        <TextView
-            android:id="@+id/tv_purchaseDate"
-            android:layout_width="379dp"
-            android:layout_height="wrap_content"
-            android:text="@string/tv_PurchaseDate"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_foodName" />
-
-        <EditText
-            android:id="@+id/et_purchaseDate"
-            android:layout_width="379dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/yyyy_mm_dd"
-            android:inputType="date"
-            android:textColor="#FFFFFF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_purchaseDate"
-            android:importantForAutofill="no" />
-
-        <TextView
-            android:id="@+id/tv_expiryDate"
-            android:layout_width="379dp"
-            android:layout_height="wrap_content"
-            android:text="@string/tv_expiryDate"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_purchaseDate" />
-
-        <EditText
-            android:id="@+id/et_expiryDate"
-            android:layout_width="379dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/yyyy_mm_dd"
-            android:importantForAutofill="no"
-            android:inputType="date"
-            android:textColor="#FFFFFF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_expiryDate" />
-
-        <Button
-            android:id="@+id/bt_addFood"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@android:drawable/ic_menu_add"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_expiryDate" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintVertical_bias="1.0"
+        app:menu="@menu/bottom_navigation_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
