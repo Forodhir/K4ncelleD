@@ -7,11 +7,15 @@ public class Food implements Serializable {
     private String name;
     private LocalDate purchaseDate;
     private LocalDate expiryDate;
+    private int valueCents;
+    private String imageName;
 
-    public Food(String name, LocalDate purchaseDate, LocalDate expiryDate){
+    public Food(String name, LocalDate purchaseDate, LocalDate expiryDate, int valueCents, String imageName){
         this.name = name;
         this.purchaseDate = purchaseDate;
         this.expiryDate = expiryDate;
+        this.valueCents = valueCents;
+        this.imageName = imageName;
     }
 
     public String getName(){
@@ -25,6 +29,10 @@ public class Food implements Serializable {
     public LocalDate getExpiryDate() {
         return expiryDate;
     }
+
+    public int getValueCents() { return valueCents; }
+
+    public String getImageName() { return imageName; }
 
     @Override
     public String toString(){

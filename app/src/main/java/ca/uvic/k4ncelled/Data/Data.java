@@ -12,7 +12,7 @@ import java.io.ObjectOutputStream;
 import ca.uvic.k4ncelled.Backend.Fridge;
 
 public class Data {
-    private final String FILENAME = "fridgeData";
+    private final String FRIDGE_DATA = "fridgeData";
 
     private Context context;
 
@@ -22,7 +22,7 @@ public class Data {
 
     public void save(Fridge fridge){
         try {
-            FileOutputStream fos = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            FileOutputStream fos = context.openFileOutput(FRIDGE_DATA, Context.MODE_PRIVATE);
             ObjectOutputStream os = new ObjectOutputStream(fos);
             os.writeObject(fridge);
             os.close();
@@ -34,9 +34,9 @@ public class Data {
 
     public Fridge load(){
         Fridge fridge = new Fridge();
-        if((new File(context.getFilesDir(), FILENAME)).exists()) {
+        if((new File(context.getFilesDir(), FRIDGE_DATA)).exists()) {
             try {
-                FileInputStream fis = context.openFileInput(FILENAME);
+                FileInputStream fis = context.openFileInput(FRIDGE_DATA);
                 ObjectInputStream is = new ObjectInputStream(fis);
                 fridge = (Fridge) is.readObject();
                 is.close();
