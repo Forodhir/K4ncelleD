@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 
 import ca.uvic.k4ncelled.Backend.Fridge;
 
+// Class for storing and loading data
 public class Data {
     private final String FRIDGE_DATA = "fridgeData";
 
@@ -20,6 +21,7 @@ public class Data {
         this.context = context;
     }
 
+    // Save Fridge to local storage
     public void save(Fridge fridge){
         try {
             FileOutputStream fos = context.openFileOutput(FRIDGE_DATA, Context.MODE_PRIVATE);
@@ -32,6 +34,7 @@ public class Data {
         }
     }
 
+    // Loads Fridge from storage, or returns new Fridge
     public Fridge load(){
         Fridge fridge = new Fridge();
         if((new File(context.getFilesDir(), FRIDGE_DATA)).exists()) {

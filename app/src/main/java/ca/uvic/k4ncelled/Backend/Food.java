@@ -10,6 +10,7 @@ public class Food implements Serializable {
     private int valueCents;
     private String imageName;
 
+    // Basic food object
     public Food(String name, LocalDate purchaseDate, LocalDate expiryDate, int valueCents, String imageName){
         this.name = name;
         this.purchaseDate = purchaseDate;
@@ -32,6 +33,7 @@ public class Food implements Serializable {
 
     public int getValueCents() { return valueCents; }
 
+    // TODO Implement images
     public String getImageName() { return imageName; }
 
     @Override

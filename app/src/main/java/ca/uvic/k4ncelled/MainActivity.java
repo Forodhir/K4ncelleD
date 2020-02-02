@@ -28,7 +28,9 @@ import ca.uvic.k4ncelled.Backend.Food;
 import ca.uvic.k4ncelled.Backend.Fridge;
 import ca.uvic.k4ncelled.Data.Data;
 
+// Start the app
 public class MainActivity extends AppCompatActivity {
+    // Declare elements
     private Fridge fridge;
     private Data data;
 
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private Button bt_reset;
     private TextView tv_data;
 
+    // Load data and create main screen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // Initialize display elements
     private void assignComponents(){
         nm_navigationView = findViewById(R.id.nm_navigationView);
         lo_browse = findViewById(R.id.lo_browse);
@@ -85,10 +89,15 @@ public class MainActivity extends AppCompatActivity {
         tv_data = findViewById(R.id.tv_data);
     }
 
+    // Update food browse
     private void updateBrowse(){
+        // Remove all current objects
         lo_scroll.removeAllViews();
+
+        // For each Food in the Fridge
         for(final Food food : fridge.getStorage()){
 
+            // Create food display element
             TableLayout tableLayout = new TableLayout(this);
             tableLayout.setBackgroundResource(R.drawable.layout_bg);
 
@@ -122,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
             TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.setMargins(75,0,0,8);
 
+            // Create eat button
             Button eatFood = new Button(this);
             eatFood.setLayoutParams(layoutParams);
             eatFood.setText("Eaten");
@@ -133,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+            // Create trash button
             Button trashFood = new Button(this);
             trashFood.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             trashFood.setText("Trashed");
@@ -144,12 +155,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+            // Add elements to view
             tableRow2.addView(fake);
             tableRow2.addView(eatFood);
             tableRow2.addView(trashFood);
-
-
-
 
             tableLayout.addView(tableRow1);
             tableLayout.addView(tableRow2);
@@ -162,12 +171,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Show the current data for Fridge
     private void updateData(){
         tv_data.setText(String.format(Locale.CANADA, "Items in fridge: %d\n\nTotal value in fridge: $%.2f\n\n" +
                 "Value eaten: $%.2f\n\nValue wasted: $%.2f", fridge.getStorage().size(), fridge.getTotalValueCents() / 100.0,
                 fridge.getValueEatenCents() / 100.0, fridge.getValueWastedCents() / 100.0));
     }
 
+    // Create bottom navigation bar
     private void create_nm_navigationView(){
         nm_navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -193,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
         nm_navigationView.setSelectedItemId(R.id.mi_browse);
     }
 
+    // Create purchase date text box
     private void create_et_purchaseDate(){
         et_purchaseDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // Create expiry date text box
     private void create_et_expiryDate(){
         et_expiryDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,10 +236,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // Create add food button
     private void create_bt_addFood(){
         bt_addFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Parse price
                 int value = Integer.parseInt(et_price.getText().toString().replace(".",""));
                 if(!et_price.getText().toString().contains(".")){
                     value *= 100;
@@ -235,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
                         et_expiryDate.getText().toString(), value
                         , null);
 
+                // Clear inputs
                 nm_navigationView.setSelectedItemId(R.id.mi_browse);
                 et_foodName.setText("");
                 et_purchaseDate.setText("");
@@ -244,6 +260,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // Create reset fridge button
     private void create_bt_reset(){
         bt_reset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -254,6 +271,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // Save data on app close
     @Override
     protected void onStop() {
         super.onStop();
