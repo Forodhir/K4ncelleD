@@ -9,11 +9,14 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText et_expiryDate;
     private EditText et_price;
     private Button bt_addFood;
+    private Button bt_reset;
     private TextView tv_data;
 
     @Override
@@ -60,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         create_et_purchaseDate();
         create_et_expiryDate();
         create_bt_addFood();
+        create_bt_reset();
 
         nm_navigationView.setSelectedItemId(R.id.mi_browse);
 
@@ -76,34 +81,91 @@ public class MainActivity extends AppCompatActivity {
         et_expiryDate = findViewById(R.id.et_expiryDate);
         et_price = findViewById(R.id.et_price);
         bt_addFood = findViewById(R.id.bt_addFood);
+        bt_reset = findViewById(R.id.bt_reset);
         tv_data = findViewById(R.id.tv_data);
     }
 
     private void updateBrowse(){
         lo_scroll.removeAllViews();
-        for(Food food : fridge.getStorage()){
+        for(final Food food : fridge.getStorage()){
+
+            TableLayout tableLayout = new TableLayout(this);
+            tableLayout.setBackgroundResource(R.drawable.layout_bg);
+
+            LinearLayout.LayoutParams tableParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            tableParams.setMargins(0,8,0,8);
+            tableLayout.setLayoutParams(tableParams);
+
+
+            TableRow tableRow1 = new TableRow(this);
+            tableRow1.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
             TextView textView = new TextView(this);
+            textView.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             textView.setText(String.format(Locale.CANADA,"%s\nPurchased: %s\nExpires: %s\nPrice: $%.2f",
                     food.getName(), food.getPurchaseDate().toString(), food.getExpiryDate().toString(), food.getValueCents() / 100.0));
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(0,0,0,50);
-            textView.setLayoutParams(layoutParams);
-            textView.setBackgroundResource(R.drawable.layout_bg);
             textView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
             textView.setTextSize(24);
-            textView.setPadding(80, 24, 24, 24);
+            textView.setPadding(80, 24, 24, 8);
+
+
+            tableRow1.addView(textView);
+
+
+            TableRow tableRow2 = new TableRow(this);
+            tableRow2.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+            Button fake = new Button(this);
+            fake.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            fake.setVisibility(View.GONE);
+
+            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(75,0,0,8);
+
+            Button eatFood = new Button(this);
+            eatFood.setLayoutParams(layoutParams);
+            eatFood.setText("Eaten");
+            eatFood.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fridge.eatFood(food);
+                    updateBrowse();
+                }
+            });
+
+            Button trashFood = new Button(this);
+            trashFood.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            trashFood.setText("Trashed");
+            trashFood.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fridge.trashFood(food);
+                    updateBrowse();
+                }
+            });
+
+            tableRow2.addView(fake);
+            tableRow2.addView(eatFood);
+            tableRow2.addView(trashFood);
+
+
+
+
+            tableLayout.addView(tableRow1);
+            tableLayout.addView(tableRow2);
+
+            lo_scroll.addView(tableLayout);
 
             lo_scroll.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
             lo_scroll.setDividerPadding(50);
 
-            lo_scroll.addView(textView);
         }
     }
 
     private void updateData(){
         tv_data.setText(String.format(Locale.CANADA, "Items in fridge: %d\n\nTotal value in fridge: $%.2f\n\n" +
-                "Value wasted: $%.2f", fridge.getStorage().size(), fridge.getTotalValueCents() / 100.0,
-                fridge.getValueWastedCents() / 100.0));
+                "Value eaten: $%.2f\n\nValue wasted: $%.2f", fridge.getStorage().size(), fridge.getTotalValueCents() / 100.0,
+                fridge.getValueEatenCents() / 100.0, fridge.getValueWastedCents() / 100.0));
     }
 
     private void create_nm_navigationView(){
@@ -178,6 +240,16 @@ public class MainActivity extends AppCompatActivity {
                 et_purchaseDate.setText("");
                 et_expiryDate.setText("");
                 et_price.setText("");
+            }
+        });
+    }
+
+    private void create_bt_reset(){
+        bt_reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fridge.reset();
+                updateData();
             }
         });
     }

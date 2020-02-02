@@ -8,6 +8,7 @@ import java.util.Comparator;
 public class Fridge implements Serializable {
     private ArrayList<Food> storage;
     private int valueWastedCents;
+    private int valueEatenCents;
     private int totalValueCents;
 
     public Fridge(){
@@ -21,6 +22,8 @@ public class Fridge implements Serializable {
 
     public int getValueWastedCents(){ return valueWastedCents; }
 
+    public int getValueEatenCents(){ return valueEatenCents; }
+
     public int getTotalValueCents(){ return totalValueCents; }
 
     public void addFood(String name, LocalDate purchaseDate, LocalDate expiryDate, int priceCents, String imageName){
@@ -33,10 +36,23 @@ public class Fridge implements Serializable {
         addFood(name, LocalDate.parse(purchaseDate), LocalDate.parse(expiryDate), priceCents, imageName);
     }
 
-    public void removeFood(Food toRemove){
+    public void eatFood(Food toRemove){
+        storage.remove(toRemove);
+        valueEatenCents += toRemove.getValueCents();
+        totalValueCents -= toRemove.getValueCents();
+    }
+
+    public void trashFood(Food toRemove){
         storage.remove(toRemove);
         valueWastedCents += toRemove.getValueCents();
         totalValueCents -= toRemove.getValueCents();
+    }
+
+    public void reset(){
+        storage.clear();
+        totalValueCents = 0;
+        valueEatenCents = 0;
+        valueWastedCents = 0;
     }
 }
 
